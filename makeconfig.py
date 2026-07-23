@@ -90,7 +90,7 @@ def Make_User_Config():
         "--source",
         type=str,
         default="Object",
-        help="The name of source object."
+        help="The name of source object. spaces in the source name are not allowed."
     )
 
     parser.add_argument(
@@ -102,17 +102,17 @@ def Make_User_Config():
     )
 
     parser.add_argument(
-        "--run_validation",
+        "--include_validation",
         type=bool,
         default=True,
-        help="Run validation check of observation data."
+        help="Run validation check of observation data. This parameter is primarily for development purposes."
     )
 
     parser.add_argument(
-        "--run_reduction",
+        "--include_reduction",
         type=bool,
         default=True,
-        help="Run data reduction process."
+        help="Run data reduction process. This is parameter primarily for development purposes."
     )
 
 
@@ -146,9 +146,9 @@ def Make_User_Config():
 
         "CLOBBER": args.clobber,
 
-        "RUN_VALIDATION": args.run_validation,
+        "INCLUDE_VALIDATION": args.include_validation,
 
-        "RUN_REDUCTION": args.run_reduction
+        "INCLUDE_REDUCTION": args.include_reduction
     }
 
 
@@ -179,9 +179,9 @@ def Make_Config(user):
     
     CLOBBER = user["CLOBBER"]
 
-    RUN_VALIDATION = user["RUN_VALIDATION"]
+    INCLUDE_VALIDATION = user["INCLUDE_VALIDATION"]
 
-    RUN_REDUCTION = user["RUN_REDUCTION"]
+    INCLUDE_REDUCTION = user["INCLUDE_REDUCTION"]
 
     # Derived
     OBSIDS = os.listdir(INPATH)
@@ -226,9 +226,9 @@ def Make_Config(user):
 
         "CLOBBER": CLOBBER,
 
-        "RUN_VALIDATION": RUN_VALIDATION,
+        "INCLUDE_VALIDATION": INCLUDE_VALIDATION,
 
-        "RUN_REDUCTION": RUN_REDUCTION
+        "INCLUDE_REDUCTION": INCLUDE_REDUCTION
     }
 
     return CONFIG

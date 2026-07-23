@@ -27,6 +27,7 @@ CONFIG = Make_Config(USER_CONFIG)
 print(f"Using energy bands - \n{CONFIG["EBANDS"]}")
 
 
+
 log_config = CONFIG.copy()
 log_config.pop("OBSIDS", None)
 
@@ -35,6 +36,12 @@ Log(CONFIG,
     f"RUN ID : {CONFIG['RUN_ID']}\n",
     f"Start time : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n",
     f"Configuration : \n{log_config}\n")
+
+# This is to prevent some heasoft tasks from sending a prompt and crashing the pipeline -
+
+ENV = os.environ.copy()
+ENV["HEADASNOQUERY"] = "YES"
+ENV["HEADASPROMPT"] = "/dev/null"
 
 # Check Save state -
 
@@ -90,11 +97,7 @@ else:
     ]
 
 
-# This is to prevent some heasoft tasks from sending a prompt and crashing the pipeline -
 
-ENV = os.environ.copy()
-ENV["HEADASNOQUERY"] = "YES"
-ENV["HEADASPROMPT"] = "/dev/null"
 
 # ====================================================================================================
 # ====================================================================================================
@@ -102,8 +105,8 @@ ENV["HEADASPROMPT"] = "/dev/null"
 
 # 1. obsids with more than one required file like attitude file or cal file, etc.
 # 2. OBSIDS with missing files.
-# 3. if clobber = yes, then clear the save file and start fresh.
-# 4. if clobber = no,  consult the save file to check for completed obsids and remove them from the validation check.
+# 3. if clobber = YES, then clear the save file and start fresh.
+# 4. if clobber = NO, consult the save file to check for completed obsids and remove them from the validation check.
 # 5. remove obsids which do not fall inside the tstart to tstop duration.
 # 6. remove only low energy files (the 'e20' dph). This exclusion is only temporary. Later make a helper function
 #       that checks for the input energy bands, and includes the obsid  only for the ebands it is not relevant.
@@ -168,6 +171,8 @@ if CONFIG["INCLUDE_REDUCTION"] == True:
         "Proceeding to merging...\n",
         "=" * 60)
 
+else:
+    print("Skipping Reduction Process.\n")
 
 # ====================================================================================================
 # Merge into a single master lc file - 
@@ -187,6 +192,8 @@ else:
     Log(CONFIG,
         "Merging light curves - ")
     
+    print("Open file descriptors:", len(os.listdir(f"/proc/{os.getpid()}/fd")))
+
     Merge_Lightcurves(CONFIG, success_obsids)
 
     MASTER_LC = "master_lc.fits"

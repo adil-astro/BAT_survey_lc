@@ -1,4 +1,5 @@
 import numpy as np
+
 from constants import GLOBAL_EMIN, GLOBAL_EMAX
 
 
