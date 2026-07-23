@@ -1,2 +1,4 @@
 # BAT-survey-lc
 This project provides a Python pipeline for automating the reduction of Swift BAT survey data using HEASoft. The pipeline assumes that the required observation data have already been downloaded using the official HEASARC methods or other compatible tools. Data downloading and advanced plotting capabilities are planned for future releases.
+
+The pipeline is intended specifically for generating light curves of individual sources and does not provide tools for analysing the entire BAT survey sky. As a result, it is not intended for survey studies involving multiple sources. The reduction process also differs slightly from the official **batsurvey** task. These differences in scope and reduction approach make the pipeline significantly less computationally and storage intensive than more comprehensive tools such as the BatAnalysis Python package: https://github.com/parsotat/BatAnalysis
