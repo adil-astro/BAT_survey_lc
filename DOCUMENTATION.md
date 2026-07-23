@@ -101,7 +101,7 @@ where mjdref=51910.00074287037
 
 - Light curve comparison with 1 day time bin and 15-50 keV energy bin.
 
-![MAXI J1820+070 light curve comparison](J1820_comparison.png)
+![MAXI J1820+070 light curve comparison](J1820_main.png)
 
 
 ---
